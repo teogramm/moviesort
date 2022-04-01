@@ -1,6 +1,7 @@
 project(libmoviesort)
 
-add_library(${PROJECT_NAME} src/test.cpp src/MovieDatabase.cpp include/MovieDatabase.h)
+set(CMAKE_CXX_STANDARD 17)
+add_library(${PROJECT_NAME} src/test.cpp src/MovieDatabase.cpp include/MovieSort/MovieDatabase.h include/MovieSort/Exceptions.h)
 
 find_package(SQLite3 REQUIRED)
 
