@@ -3,13 +3,13 @@
 #include <fstream>
 #include <memory>
 #include <sqlite3.h>
+#include <SQLiteCpp/Database.h>
 
 class MovieDatabase {
 public:
     explicit MovieDatabase(const std::string& databaseFile);
-    ~MovieDatabase();
 private:
-    sqlite3* db = nullptr;
+    SQLite::Database db;
 };
 
 
