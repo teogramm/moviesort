@@ -1,0 +1,3 @@
+[submodule "libmoviesort/vendor/SQLiteCpp"]
+	path = libmoviesort/vendor/SQLiteCpp
+	url = https://github.com/SRombauts/SQLiteCpp.git
