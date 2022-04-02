@@ -17,6 +17,12 @@ namespace MovieSort{
         explicit MovieAlreadyExists(const std::string &movieName): DatabaseError(movieName + message) {
         }
     };
+
+    class MovieNotFound: public DatabaseError{
+        constexpr static auto message = " not found in database.";
+    public:
+        explicit MovieNotFound(const std::string &movieName): DatabaseError(movieName + message){};
+    };
 }
 
 #endif //MOVIESORT_EXCEPTIONS_H
