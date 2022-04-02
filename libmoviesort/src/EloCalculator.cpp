@@ -6,10 +6,10 @@
 using namespace MovieSort;
 std::pair<double, double> EloCalculator::getExpected(unsigned score1, unsigned score2) {
     // Make type double, so we can avoid casts when calculating
-    auto diff = static_cast<double>(score1) - score2;
-    auto E_A = 1/(1+std::pow(10,diff/400));
+    auto diff = static_cast<double>(score2) - score1;
+    auto E_A = 1/(1+std::pow(10,diff/D));
     diff = static_cast<double>(score1) - score2;
-    auto E_B = 1/(1+std::pow(10, diff/400));
+    auto E_B = 1/(1+std::pow(10, diff/D));
     return {E_A, E_B};
 }
 
