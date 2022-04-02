@@ -1,6 +1,28 @@
 #include "MovieSort/MovieDatabase.h"
 #include "MovieSort/Exceptions.h"
 
+///**
+// * Create a full text search index for the movies table
+// * @param db
+// */
+//void create_movies_fts(SQLite::Database &db){
+//    auto sql_query = std::string(
+//            "CREATE VIRTUAL TABLE IF NOT EXISTS movies_fts USING fts5("
+//            "name,"
+//            "content=movies,"
+//            "prefix='3 4'"
+//            ")"
+//    );
+//    auto stmt = SQLite::Statement(db, sql_query);
+//    stmt.executeStep();
+//    auto sql_triggers = std::string(
+//            "CREATE TRIGGER movies_fts_insert AFTER INSERT ON movies"
+//            "BEGIN"
+//            "INSERT INTO moviess_fts (rowid, name) VALUES (new.rowid, new.names);"
+//            "END;"
+//    );
+//}
+
 /**
  * Creates the movies table.
  * It contains the name of each movie and its elo.
@@ -16,6 +38,8 @@ void create_movies_table(SQLite::Database &db){
     );
     auto stmt = SQLite::Statement(db, sql_query);
     stmt.executeStep();
+    // Create Full text search for the table
+//    create_movies_fts(db);
 }
 
 /**
