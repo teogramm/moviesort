@@ -1,5 +1,6 @@
 #include "MovieSort/MovieDatabase.h"
 #include "MovieSort/Exceptions.h"
+#include "SQLiteCpp/Transaction.h"
 
 ///**
 // * Create a full text search index for the movies table
@@ -116,5 +117,36 @@ unsigned MovieDatabase::getMovieElo(const std::string &movieName) {
     }else{
         throw MovieNotFound(movieName);
     }
+}
+
+void MovieDatabase::writeMatchResult(Match &match) {
+    auto transaction = SQLite::Transaction(db);
+    // First insert an entry on the matches table
+    auto insert_query = std::string(
+            "INSERT INTO matches(timestamp, movie1, movie2, result) "
+            "VALUES (?,"
+            "(SELECT id FROM movies WHERE name = ?),"
+            "(SELECT id FROM movies WHERE name = ?),"
+            "?);"
+    );
+    auto insert_stmt = SQLite::Statement(db, insert_query);
+    insert_stmt.bind(1, match.getTimestamp());
+    insert_stmt.bind(2, match.getFirstMovie().getName());
+    insert_stmt.bind(3, match.getSecondMovie().getName());
+    insert_stmt.bind(4, match.getResult());
+    insert_stmt.executeStep();
+    // Update the Elo of the movies
+    auto update_query = std::string(
+        "UPDATE movies SET elo = ? WHERE name = ?;"
+    );
+    auto update_stmt = SQLite::Statement(db, update_query);
+    update_stmt.bind(1, match.getNewScores().first);
+    update_stmt.bind(2, match.getFirstMovie().getName());
+    update_stmt.executeStep();
+    update_stmt.reset();
+    update_stmt.bind(1, match.getNewScores().second);
+    update_stmt.bind(2, match.getSecondMovie().getName());
+    update_stmt.executeStep();
+    transaction.commit();
 }
 

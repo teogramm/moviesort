@@ -3,7 +3,8 @@
 #include <fstream>
 #include <memory>
 #include <sqlite3.h>
-#include "SQLiteCpp/Database.h"
+#include <MovieSort/Match.h>
+#include <SQLiteCpp/Database.h>
 
 namespace MovieSort {
     class MovieDatabase {
@@ -17,6 +18,7 @@ namespace MovieSort {
          * @return elo of the movie
          */
         [[nodiscard]] unsigned getMovieElo(const std::string &movieName);
+        void writeMatchResult(Match &match);
     private:
         SQLite::Database db;
     };
