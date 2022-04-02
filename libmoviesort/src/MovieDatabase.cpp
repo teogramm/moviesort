@@ -35,10 +35,13 @@ void create_movies_table(SQLite::Database &db){
             "name TEXT UNIQUE NOT NULL,"
             "elo INT DEFAULT 1000 NOT NULL"
             ");"
-            "CREATE INDEX IF NOT EXISTS movie_name_index ON movies(name);"
+
     );
     auto stmt = SQLite::Statement(db, sql_query);
     stmt.executeStep();
+    auto indexStmt = SQLite::Statement(db,
+"CREATE INDEX IF NOT EXISTS movie_name_index ON movies(name);");
+    indexStmt.executeStep();
     // Create Full text search for the table
 //    create_movies_fts(db);
 }

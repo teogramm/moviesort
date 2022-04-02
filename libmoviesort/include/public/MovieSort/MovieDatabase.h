@@ -9,6 +9,7 @@ namespace MovieSort {
     class MovieDatabase {
     public:
         explicit MovieDatabase(const std::string &databaseFile);
+        explicit MovieDatabase(SQLite::Database &db): db(std::move(db)){};
         void addMovie(const std::string &movieName);
         /**
          * Get the elo score of the given movie.
