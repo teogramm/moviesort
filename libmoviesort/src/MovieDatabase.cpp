@@ -35,6 +35,7 @@ void create_movies_table(SQLite::Database &db){
             "name TEXT UNIQUE NOT NULL,"
             "elo INT DEFAULT 1000 NOT NULL"
             ");"
+            "CREATE INDEX IF NOT EXISTS movie_name_index ON movies(name);"
     );
     auto stmt = SQLite::Statement(db, sql_query);
     stmt.executeStep();
@@ -98,6 +99,19 @@ void MovieDatabase::addMovie(const std::string &movieName) {
         }else{
             throw DatabaseError(what_string);
         }
+    }
+}
+
+unsigned MovieDatabase::getMovieElo(const std::string &movieName) {
+    auto query = std::string("SELECT elo FROM movies WHERE name = ?;");
+    auto stmt = SQLite::Statement(db, query);
+    stmt.bind(1, movieName);
+    stmt.executeStep();
+    if(stmt.hasRow()) {
+        unsigned elo = stmt.getColumn(0);
+        return elo;
+    }else{
+        throw MovieNotFound(movieName);
     }
 }
 
