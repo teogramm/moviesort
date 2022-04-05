@@ -1,7 +1,7 @@
 #ifndef MOVIESORT_MOVIEDATABASE_H
 #define MOVIESORT_MOVIEDATABASE_H
-#include <fstream>
 #include <memory>
+#include <vector>
 #include "MovieSort/Match.h"
 
 namespace MovieSort {
@@ -18,9 +18,12 @@ namespace MovieSort {
          */
         [[nodiscard]] unsigned getMovieElo(const std::string &movieName);
         void writeMatchResult(Match &match);
+        [[nodiscard]] std::vector<Movie> getAllMovies();
+        std::vector<Movie> getTopKMovies(unsigned k = 10);
     private:
         class impl;
         std::unique_ptr<impl> pimpl;
+
     };
 }
 

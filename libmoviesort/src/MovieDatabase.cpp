@@ -1,4 +1,4 @@
-#include "MovieSort/MovieDatabase.h"
+#include "MovieDatabase.h"
 #include "MovieSort/Exceptions.h"
 #include <SQLiteCpp/Transaction.h>
 #include <SQLiteCpp/Database.h>
@@ -133,6 +133,7 @@ unsigned MovieDatabase::getMovieElo(const std::string &movieName) {
     }
 }
 
+
 void MovieDatabase::writeMatchResult(Match &match) {
     auto transaction = SQLite::Transaction(pimpl->getDB());
     // First insert an entry on the matches table
@@ -162,5 +163,35 @@ void MovieDatabase::writeMatchResult(Match &match) {
     update_stmt.bind(2, match.getSecondMovie().getName());
     update_stmt.executeStep();
     transaction.commit();
+}
+
+std::vector<Movie> MovieSort::MovieDatabase::getAllMovies() {
+    auto query = std::string(
+            "SELECT name,elo FROM movies;"
+    );
+    auto movies = std::vector<Movie>();
+    auto& db = pimpl->getDB();
+    auto stmt = SQLite::Statement(db, query);
+    while(stmt.executeStep()){
+        std::string name = stmt.getColumn(0);
+        unsigned elo = stmt.getColumn(1);
+        movies.emplace_back(name,elo);
+    }
+    return movies;
+}
+
+std::vector<Movie> MovieSort::MovieDatabase::getTopKMovies(unsigned k){
+    auto query = std::string(
+            "SELECT name, elo FROM movies ORDER BY elo DESC LIMIT ?;"
+    );
+    auto stmt = SQLite::Statement(pimpl->getDB(), query);
+    stmt.bind(1,k);
+    auto movies = std::vector<Movie>();
+    while(stmt.executeStep()){
+        std::string name = stmt.getColumn(0);
+        unsigned elo = stmt.getColumn(1);
+        movies.emplace_back(name,elo);
+    }
+    return movies;
 }
 

@@ -1,5 +1,5 @@
 #include <MovieSort/Match.h>
-#include <MovieSort/EloCalculator.h>
+#include "EloCalculator.h"
 #include <ctime>
 #include <utility>
 

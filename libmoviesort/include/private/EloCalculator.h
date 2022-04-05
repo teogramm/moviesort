@@ -1,7 +1,6 @@
 #ifndef MOVIESORT_ELOCALCULATOR_H
 #define MOVIESORT_ELOCALCULATOR_H
 
-#include <MovieSort/Movie.h>
 #include <utility>
 
 namespace MovieSort{

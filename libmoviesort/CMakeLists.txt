@@ -30,6 +30,5 @@ gtest_discover_tests(libmoviesort_test)
 target_link_libraries(${PROJECT_NAME} PRIVATE SQLite::SQLite3 SQLiteCpp)
 target_include_directories(${PROJECT_NAME}
         PUBLIC include/public
-        PRIVATE ${SQLITE_INCLUDE_DIRS}
-        PUBLIC include/private
+        PRIVATE ${SQLITE_INCLUDE_DIRS} include/private
 )

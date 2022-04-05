@@ -1,4 +1,4 @@
-#include <MovieSort/EloCalculator.h>
+#include "EloCalculator.h"
 #include <cmath>
 #include <MovieSort/MatchResult.h>
 #include <stdexcept>
