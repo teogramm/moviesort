@@ -1,6 +1,7 @@
 #include "MovieSort/MovieDatabase.h"
 #include "MovieSort/Exceptions.h"
-#include "SQLiteCpp/Transaction.h"
+#include <SQLiteCpp/Transaction.h>
+#include <SQLiteCpp/Database.h>
 
 ///**
 // * Create a full text search index for the movies table
@@ -76,14 +77,27 @@ void initialize_database(SQLite::Database &db){
 }
 
 using namespace MovieSort;
+
+class MovieDatabase::impl{
+    SQLite::Database db;
+public:
+    explicit impl(const std::string& databaseFile):
+        db(SQLite::Database(databaseFile, SQLite::OPEN_READWRITE | SQLite::OPEN_CREATE)) {};
+    SQLite::Database& getDB(){
+        return db;
+    }
+};
+MovieDatabase::~MovieDatabase() = default;
+
 /**
  * Opens a movie database in the given database file
  * @param databaseFile path to the database file
  */
-MovieDatabase::MovieDatabase(const std::string& databaseFile): db(SQLite::Database(databaseFile, SQLite::OPEN_READWRITE | SQLite::OPEN_CREATE))
+MovieDatabase::MovieDatabase(const std::string& databaseFile):
+    pimpl(std::make_unique<impl>(databaseFile))
 {
     try {
-        initialize_database(db);
+        initialize_database(pimpl->getDB());
     }catch (SQLite::Exception &e){
         // Rethrow exception as database error
         throw DatabaseError(e.what());
@@ -92,7 +106,7 @@ MovieDatabase::MovieDatabase(const std::string& databaseFile): db(SQLite::Databa
 
 void MovieDatabase::addMovie(const std::string &movieName) {
     auto query = std::string("INSERT INTO movies(name) VALUES (?);");
-    auto stmt = SQLite::Statement(db, query);
+    auto stmt = SQLite::Statement(pimpl->getDB(), query);
     stmt.bind(1, movieName);
     try {
         stmt.executeStep();
@@ -108,7 +122,7 @@ void MovieDatabase::addMovie(const std::string &movieName) {
 
 unsigned MovieDatabase::getMovieElo(const std::string &movieName) {
     auto query = std::string("SELECT elo FROM movies WHERE name = ?;");
-    auto stmt = SQLite::Statement(db, query);
+    auto stmt = SQLite::Statement(pimpl->getDB(), query);
     stmt.bind(1, movieName);
     stmt.executeStep();
     if(stmt.hasRow()) {
@@ -120,7 +134,7 @@ unsigned MovieDatabase::getMovieElo(const std::string &movieName) {
 }
 
 void MovieDatabase::writeMatchResult(Match &match) {
-    auto transaction = SQLite::Transaction(db);
+    auto transaction = SQLite::Transaction(pimpl->getDB());
     // First insert an entry on the matches table
     auto insert_query = std::string(
             "INSERT INTO matches(timestamp, movie1, movie2, result) "
@@ -129,7 +143,7 @@ void MovieDatabase::writeMatchResult(Match &match) {
             "(SELECT id FROM movies WHERE name = ?),"
             "?);"
     );
-    auto insert_stmt = SQLite::Statement(db, insert_query);
+    auto insert_stmt = SQLite::Statement(pimpl->getDB(), insert_query);
     insert_stmt.bind(1, match.getTimestamp());
     insert_stmt.bind(2, match.getFirstMovie().getName());
     insert_stmt.bind(3, match.getSecondMovie().getName());
@@ -139,7 +153,7 @@ void MovieDatabase::writeMatchResult(Match &match) {
     auto update_query = std::string(
         "UPDATE movies SET elo = ? WHERE name = ?;"
     );
-    auto update_stmt = SQLite::Statement(db, update_query);
+    auto update_stmt = SQLite::Statement(pimpl->getDB(), update_query);
     update_stmt.bind(1, match.getNewScores().first);
     update_stmt.bind(2, match.getFirstMovie().getName());
     update_stmt.executeStep();

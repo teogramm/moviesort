@@ -2,15 +2,14 @@
 #define MOVIESORT_MOVIEDATABASE_H
 #include <fstream>
 #include <memory>
-#include <sqlite3.h>
-#include <MovieSort/Match.h>
-#include <SQLiteCpp/Database.h>
+#include "MovieSort/Match.h"
 
 namespace MovieSort {
     class MovieDatabase {
     public:
         explicit MovieDatabase(const std::string &databaseFile);
-        explicit MovieDatabase(SQLite::Database &db): db(std::move(db)){};
+        // Define the destructor here and implement it in the cpp file
+        ~MovieDatabase();
         void addMovie(const std::string &movieName);
         /**
          * Get the elo score of the given movie.
@@ -20,7 +19,8 @@ namespace MovieSort {
         [[nodiscard]] unsigned getMovieElo(const std::string &movieName);
         void writeMatchResult(Match &match);
     private:
-        SQLite::Database db;
+        class impl;
+        std::unique_ptr<impl> pimpl;
     };
 }
 
