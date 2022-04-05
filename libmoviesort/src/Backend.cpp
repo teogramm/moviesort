@@ -1,21 +1,34 @@
 #include "MovieSort/Backend.h"
+#include "MovieDatabase.h"
+#include "EloCalculator.h"
 
-MovieSort::Backend::Backend(const std::string &fileName):
-    db(new MovieSort::MovieDatabase(fileName)){}
+class MovieSort::Backend::impl{
+public:
+    explicit impl(const std::string& fileName): db(MovieDatabase(fileName)){};
+    MovieDatabase& getDB(){
+        return db;
+    }
+private:
+    MovieDatabase db;
+};
+
+MovieSort::Backend::~Backend() = default;
+
+MovieSort::Backend::Backend(const std::string &fileName): pimpl(std::make_unique<impl>(fileName)){}
 
 void MovieSort::Backend::addMovie(const std::string &movieName) {
-    db->addMovie(movieName);
+    pimpl->getDB().addMovie(movieName);
 }
 
 void MovieSort::Backend::writeMatchResult(Match &match) {
-    db->writeMatchResult(match);
+    pimpl->getDB().writeMatchResult(match);
 }
 
 std::vector<MovieSort::Movie> MovieSort::Backend::getAllMovies() {
-    return db->getAllMovies();
+    return pimpl->getDB().getAllMovies();
 }
 
 std::vector<MovieSort::Movie> MovieSort::Backend::getTopKMovies(unsigned int k) {
-    return db->getTopKMovies(k);
+    return pimpl->getDB().getTopKMovies(k);
 };
 
