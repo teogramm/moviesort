@@ -12,8 +12,12 @@ namespace MSGui{
     public:
         explicit MainMenu(QWidget* parent = nullptr);
         ~MainMenu() override;
+    signals:
+        void optionAddMoviePressed();
+        void closeButtonPressed();
     private:
         Ui::MainMenu* ui;
+        void populateMenu();
     };
 }
 

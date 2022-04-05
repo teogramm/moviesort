@@ -14,7 +14,7 @@ source_group(headers ${MOVIESORT_H})
 set(MOVIESORT_SRC
         src/MainApp.cpp
         src/MainMenu.cpp
-        src/utils.cpp)
+        src/utils.cpp src/AddMoviePane.cpp)
 source_group(sources ${MOVIESORT_SRC})
 
 set(MOVIESORT_FORMS
