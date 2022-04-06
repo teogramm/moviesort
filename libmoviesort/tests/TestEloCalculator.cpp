@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
-#include <MovieSort/EloCalculator.h>
 #include <MovieSort/MatchResult.h>
+#include "Match.h"
+#include "EloCalculator.h"
 
 using namespace MovieSort;
 TEST(EloCalculator,TestWin1){

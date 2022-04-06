@@ -2,7 +2,7 @@
 #define MOVIESORT_MOVIEDATABASE_H
 #include <memory>
 #include <vector>
-#include "MovieSort/Match.h"
+#include "Match.h"
 
 namespace MovieSort {
     class MovieDatabase {

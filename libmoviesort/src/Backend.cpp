@@ -23,10 +23,6 @@ void MovieSort::Backend::addMovie(const std::string &movieName) {
     pimpl->getDB().addMovie(movieName);
 }
 
-void MovieSort::Backend::writeMatchResult(Match &match) {
-    pimpl->getDB().writeMatchResult(match);
-}
-
 std::vector<MovieSort::Movie> MovieSort::Backend::getAllMovies() {
     return pimpl->getDB().getAllMovies();
 }
@@ -73,5 +69,13 @@ std::pair<MovieSort::Movie, MovieSort::Movie> MovieSort::Backend::generateMatch(
         }
     }
     return {m1,m2};
+}
+
+void
+MovieSort::Backend::writeMatchResult(const std::string &movie1Name, const std::string &movie2Name, int matchResult) {
+    auto movie1 = Movie(movie1Name, pimpl->getDB().getMovieElo(movie1Name));
+    auto movie2 = Movie(movie2Name, pimpl->getDB().getMovieElo(movie2Name));
+    auto match = Match(movie1, movie2, matchResult);
+    pimpl->getDB().writeMatchResult(match);
 };
 
