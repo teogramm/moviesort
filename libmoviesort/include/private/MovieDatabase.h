@@ -19,7 +19,17 @@ namespace MovieSort {
         [[nodiscard]] unsigned getMovieElo(const std::string &movieName);
         void writeMatchResult(Match &match);
         [[nodiscard]] std::vector<Movie> getAllMovies();
-        std::vector<Movie> getTopKMovies(unsigned k = 10);
+        [[nodiscard]] std::vector<Movie> getTopKMovies(unsigned k = 10);
+        [[nodiscard]] unsigned getMovieCount();
+        /**
+         *
+         * @param id
+         * @return
+         * @throw MovieSort::MovieNotFound when a movie with the given ID does not exist.
+         */
+        [[nodiscard]] Movie getMovieById(unsigned id);
+        // Useful when we want to generate random movie IDs
+        unsigned getMaxId();
     private:
         class impl;
         std::unique_ptr<impl> pimpl;
