@@ -25,6 +25,7 @@ FetchContent_MakeAvailable(googletest)
 enable_testing()
 add_executable(libmoviesort_test tests/TestEloCalculator.cpp)
 target_link_libraries(libmoviesort_test gtest_main ${PROJECT_NAME})
+target_include_directories(libmoviesort_test PUBLIC include/private)
 include(GoogleTest)
 gtest_discover_tests(libmoviesort_test)
 

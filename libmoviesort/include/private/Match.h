@@ -1,6 +1,6 @@
 #ifndef MOVIESORT_MATCH_H
 #define MOVIESORT_MATCH_H
-#include <MovieSort/Movie.h>
+#include "MovieSort/Movie.h"
 
 namespace MovieSort{
     /**
