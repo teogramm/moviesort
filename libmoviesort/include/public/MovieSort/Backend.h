@@ -17,6 +17,7 @@ namespace MovieSort {
         void writeMatchResult(Match &match);
         [[nodiscard]] std::vector<Movie> getAllMovies();
         std::vector<Movie> getTopKMovies(unsigned k = 10);
+        std::pair<Movie, Movie> generateMatch();
     private:
         class impl;
         std::unique_ptr<impl> pimpl;

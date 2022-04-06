@@ -6,8 +6,10 @@ add_library(${PROJECT_NAME} src/MovieDatabase.cpp src/EloCalculator.cpp src/Back
 
 find_package(SQLite3 REQUIRED)
 
-# Link to system sqlite
-set(SQLITECPP_INTERNAL_SQLITE OFF CACHE BOOL "" FORCE)
+# Link to system sqlite on linux
+if (UNIX)
+    set(SQLITECPP_INTERNAL_SQLITE OFF CACHE BOOL "" FORCE)
+endif (UNIX)
 add_subdirectory(vendor/SQLiteCpp)
 
 # GoogleTest

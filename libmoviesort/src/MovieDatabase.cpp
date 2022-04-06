@@ -195,3 +195,29 @@ std::vector<Movie> MovieSort::MovieDatabase::getTopKMovies(unsigned k){
     return movies;
 }
 
+unsigned MovieSort::MovieDatabase::getMovieCount() {
+    auto query = "SELECT COUNT(*) FROM movies;";
+    auto stmt = SQLite::Statement(pimpl->getDB(), query);
+    stmt.executeStep();
+    return stmt.getColumn(0);
+}
+
+unsigned MovieSort::MovieDatabase::getMaxId(){
+    auto query = "SELECT MAX(id) FROM movies;";
+    auto stmt = SQLite::Statement(pimpl->getDB(), query);
+    stmt.executeStep();
+    return stmt.getColumn(0);
+}
+
+Movie MovieSort::MovieDatabase::getMovieById(unsigned id) {
+    auto query = "SELECT name, elo FROM movies WHERE id = ?;";
+    auto stmt = SQLite::Statement(pimpl->getDB(), query);
+    stmt.bind(1, id);
+    stmt.executeStep();
+    if(stmt.hasRow()){
+        return {stmt.getColumn(0), stmt.getColumn(1)};
+    }else{
+        throw MovieSort::MovieNotFound(std::to_string(id));
+    }
+}
+

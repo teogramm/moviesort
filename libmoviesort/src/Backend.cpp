@@ -1,4 +1,7 @@
+#include <random>
+
 #include "MovieSort/Backend.h"
+#include "MovieSort/Exceptions.h"
 #include "MovieDatabase.h"
 #include "EloCalculator.h"
 
@@ -30,5 +33,45 @@ std::vector<MovieSort::Movie> MovieSort::Backend::getAllMovies() {
 
 std::vector<MovieSort::Movie> MovieSort::Backend::getTopKMovies(unsigned int k) {
     return pimpl->getDB().getTopKMovies(k);
+}
+
+std::pair<MovieSort::Movie, MovieSort::Movie> MovieSort::Backend::generateMatch() {
+    if(pimpl->getDB().getMovieCount() < 2){
+        throw std::runtime_error("Not enough movies in the database.");
+    }
+    // Generate a random ID
+    auto distribution = std::uniform_int_distribution<unsigned>(1,pimpl->getDB().getMaxId());
+    std::random_device rd;
+    // Seed with pseudorandom value
+    std::default_random_engine generator(rd());
+
+    auto id1 = distribution(generator);
+    Movie m1("",0);
+    // Keep generating random IDs until we find one that belongs to a movie
+    while(true){
+        try{
+            m1 = pimpl->getDB().getMovieById(id1);
+            break;
+        }catch(MovieSort::MovieNotFound& e){
+            id1 = distribution(generator);
+        }
+    }
+
+    auto id2 = distribution(generator);
+    Movie m2("",0);
+    // Keep generating random IDs until we find one that belongs to a movie
+    // and the id is different from the first movie's id
+    while(true){
+        if(id1 == id2){
+            distribution(generator);
+        }
+        try{
+            m2 = pimpl->getDB().getMovieById(id2);
+            break;
+        }catch(MovieSort::MovieNotFound& e){
+            id2 = distribution(generator);
+        }
+    }
+    return {m1,m2};
 };
 
