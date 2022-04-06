@@ -12,8 +12,6 @@ MSGui::AddMovie::AddMovie(QWidget *parent): QWidget(parent), ui(new Ui::AddMovie
     ui->progressBar->setSizePolicy(sp_retain);
     ui->progressBar->setVisible(false);
 
-
-
     // Button connections
     QPushButton::connect(ui->cancelButton, &QPushButton::clicked,
                          this, &MSGui::AddMovie::closeButtonPressed);

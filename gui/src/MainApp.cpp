@@ -7,6 +7,7 @@ MSGui::MainApp::MainApp(): QDialog(), ui(new Ui::MainApp), backend(new MovieSort
     ui->setupUi(this);
     auto mm = new MainMenu(ui->stackedWidget);
     mainMenu = mm;
+    mainMenu->setTopMovies(backend->getTopKMovies());
     QObject::connect(mainMenu, &MSGui::MainMenu::optionAddMoviePressed,
                      this, &MSGui::MainApp::openAddMoviePanel);
     ui->stackedWidget->addWidget(mainMenu);
@@ -29,6 +30,7 @@ void MSGui::MainApp::openAddMoviePanel() {
 
 void MSGui::MainApp::closePanel() {
     auto currWidget = ui->stackedWidget->currentWidget();
+    mainMenu->setTopMovies(backend->getTopKMovies());
     delete currWidget;
 }
 
