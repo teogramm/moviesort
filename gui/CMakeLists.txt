@@ -14,13 +14,15 @@ source_group(headers ${MOVIESORT_H})
 set(MOVIESORT_SRC
         src/MainApp.cpp
         src/MainMenu.cpp
-        src/utils.cpp src/AddMoviePane.cpp)
+        src/utils.cpp src/AddMoviePane.cpp
+        src/MovieMatchPanel.cpp)
 source_group(sources ${MOVIESORT_SRC})
 
 set(MOVIESORT_FORMS
         forms/addmovie.ui
         forms/mainapp.ui
-        forms/mainmenu.ui)
+        forms/mainmenu.ui
+        forms/moviematch.ui)
 source_group(forms ${MOVIESORT_FORMS})
 
 add_executable(moviesort src/test.cpp ${MOVIESORT_SRC} ${MOVIESORT_H} ${MOVIESORT_FORMS})

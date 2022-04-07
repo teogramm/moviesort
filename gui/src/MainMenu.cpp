@@ -27,11 +27,16 @@ void MSGui::MainMenu::populateMenu() {
                          this, &MSGui::MainMenu::optionAddMoviePressed);
     ui->mainMenu->insertWidget(0,addMovieButton);
 
+    auto movieMatchButton = new QPushButton("Start match", this);
+    QPushButton::connect(movieMatchButton, &QPushButton::clicked,
+                         this, &MainMenu::optionStartMatchPressed);
+    ui->mainMenu->insertWidget(1, movieMatchButton);
+
     auto quitButton = new QPushButton("Quit", this);
     QPushButton::connect(quitButton, &QPushButton::clicked, [](){
         QApplication::quit();
     });
-    ui->mainMenu->insertWidget(1, quitButton);
+    ui->mainMenu->insertWidget(2, quitButton);
 }
 
 void MSGui::MainMenu::setTopMovies(const std::vector<MovieSort::Movie> &newTopMovies) {

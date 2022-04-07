@@ -1,6 +1,7 @@
 #include "ui_mainapp.h"
 #include "MainApp.h"
 #include "AddMoviePane.h"
+#include "MovieMatchPanel.h"
 #include "MovieSort/Exceptions.h"
 
 MSGui::MainApp::MainApp(): QDialog(), ui(new Ui::MainApp), backend(new MovieSort::Backend("movies.db")){
@@ -8,9 +9,14 @@ MSGui::MainApp::MainApp(): QDialog(), ui(new Ui::MainApp), backend(new MovieSort
     auto mm = new MainMenu(ui->stackedWidget);
     mainMenu = mm;
     mainMenu->setTopMovies(backend->getTopKMovies());
+    connectMainMenu();
+    ui->stackedWidget->addWidget(mainMenu);
+}
+
+void MSGui::MainApp::connectMainMenu(){
     QObject::connect(mainMenu, &MSGui::MainMenu::optionAddMoviePressed,
                      this, &MSGui::MainApp::openAddMoviePanel);
-    ui->stackedWidget->addWidget(mainMenu);
+    QObject::connect(mainMenu, &MainMenu::optionStartMatchPressed, this, &MainApp::openMovieMatchPanel);
 }
 
 MSGui::MainApp::~MainApp() {
@@ -26,6 +32,13 @@ void MSGui::MainApp::openAddMoviePanel() {
     QObject::connect(this, &MainApp::movieAdded, addMoviePane, &AddMovie::movieAddedResult);
     ui->stackedWidget->addWidget(addMoviePane);
     ui->stackedWidget->setCurrentWidget(addMoviePane);
+}
+
+void MSGui::MainApp::openMovieMatchPanel() {
+    auto movieMatchPanel = new MovieMatch(*backend, ui->stackedWidget);
+    QObject::connect(movieMatchPanel,&MovieMatch::closeButtonPressed, this, &MainApp::closePanel);
+    ui->stackedWidget->addWidget(movieMatchPanel);
+    ui->stackedWidget->setCurrentWidget(movieMatchPanel);
 }
 
 void MSGui::MainApp::closePanel() {
