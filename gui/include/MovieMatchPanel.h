@@ -2,6 +2,7 @@
 #define MOVIESORT_MOVIEMATCHPANEL_H
 #include <QWidget>
 #include "MovieSort/IMatch.h"
+#include "MovieSort/MatchResult.h"
 
 namespace Ui{
     class MovieMatch;
@@ -22,6 +23,13 @@ namespace MSGui {
     private:
         Ui::MovieMatch *ui;
         MovieSort::IMatch &backend;
+        QString movie1Name, movie2Name;
+        void loadMatch();
+        /**
+         * Register match result between the two movies in movie1Name and movie2Name
+         * @param result see MovieSort/MatchResult.h
+         */
+        void registerResult(int result);
     };
 }
 

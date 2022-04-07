@@ -77,5 +77,9 @@ MovieSort::Backend::writeMatchResult(const std::string &movie1Name, const std::s
     auto movie2 = Movie(movie2Name, pimpl->getDB().getMovieElo(movie2Name));
     auto match = Match(movie1, movie2, matchResult);
     pimpl->getDB().writeMatchResult(match);
+}
+
+unsigned MovieSort::Backend::getMovieCount() {
+    return pimpl->getDB().getMovieCount();
 };
 

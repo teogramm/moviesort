@@ -3,6 +3,7 @@
 #include "AddMoviePane.h"
 #include "MovieMatchPanel.h"
 #include "MovieSort/Exceptions.h"
+#include "utils.h"
 
 MSGui::MainApp::MainApp(): QDialog(), ui(new Ui::MainApp), backend(new MovieSort::Backend("movies.db")){
     ui->setupUi(this);
@@ -35,10 +36,14 @@ void MSGui::MainApp::openAddMoviePanel() {
 }
 
 void MSGui::MainApp::openMovieMatchPanel() {
-    auto movieMatchPanel = new MovieMatch(*backend, ui->stackedWidget);
-    QObject::connect(movieMatchPanel,&MovieMatch::closeButtonPressed, this, &MainApp::closePanel);
-    ui->stackedWidget->addWidget(movieMatchPanel);
-    ui->stackedWidget->setCurrentWidget(movieMatchPanel);
+    if(backend->getMovieCount() > 2) {
+        auto movieMatchPanel = new MovieMatch(*backend, ui->stackedWidget);
+        QObject::connect(movieMatchPanel, &MovieMatch::closeButtonPressed, this, &MainApp::closePanel);
+        ui->stackedWidget->addWidget(movieMatchPanel);
+        ui->stackedWidget->setCurrentWidget(movieMatchPanel);
+    }else{
+        MSGui::showError("To start a match add at least 2 movies to the database.");
+    }
 }
 
 void MSGui::MainApp::closePanel() {
