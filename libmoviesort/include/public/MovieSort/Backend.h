@@ -15,6 +15,7 @@ namespace MovieSort {
         void addMovie(const std::string &movieName);
         void writeMatchResult(const std::string& movie1Name, const std::string& movie2Name, int matchResult) override;
         [[nodiscard]] std::vector<Movie> getAllMovies();
+        unsigned getMovieCount();
         std::vector<Movie> getTopKMovies(unsigned k = 10);
         std::pair<Movie, Movie> generateMatch() override;
     private:
