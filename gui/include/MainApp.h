@@ -18,6 +18,10 @@ namespace MSGui{
         ~MainApp() override;
     private slots:
         void openAddMoviePanel();
+        void openMovieMatchPanel();
+        /**
+         * Close the currently open panel
+         */
         void closePanel();
         void addMovie(const QString& movieName);
 
@@ -27,6 +31,11 @@ namespace MSGui{
         Ui::MainApp* ui;
         MainMenu* mainMenu;
         MovieSort::Backend* backend;
+        /**
+         * Connect the signals emitted from the main menu to the slots that open
+         * the respective panes in MainApp.
+         */
+        void connectMainMenu();
     };
 }
 

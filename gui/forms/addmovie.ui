@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>528</width>
+    <width>543</width>
     <height>471</height>
    </rect>
   </property>
@@ -73,6 +73,9 @@
         <layout class="QHBoxLayout" name="browseFileLayout">
          <item>
           <widget class="QLabel" name="browseFileLabel">
+           <property name="lineWidth">
+            <number>0</number>
+           </property>
            <property name="text">
             <string>Alternatively, you can select a file containg movie names:</string>
            </property>
@@ -96,6 +99,21 @@
           </widget>
          </item>
         </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="fileLabel">
+         <property name="font">
+          <font>
+           <italic>true</italic>
+          </font>
+         </property>
+         <property name="lineWidth">
+          <number>0</number>
+         </property>
+         <property name="text">
+          <string>1 movie name on each line</string>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QTableWidget" name="log">

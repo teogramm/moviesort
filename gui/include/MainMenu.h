@@ -28,6 +28,7 @@ namespace MSGui{
          // Consider if it should be used or removed.
         void wantTopMovies(unsigned k = 10);
         void optionAddMoviePressed();
+        void optionStartMatchPressed();
         void closeButtonPressed();
     private:
         Ui::MainMenu* ui;
