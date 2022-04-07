@@ -23,7 +23,8 @@ set(MOVIESORT_FORMS
         forms/addmovie.ui
         forms/mainapp.ui
         forms/mainmenu.ui
-        forms/moviematch.ui)
+        forms/moviematch.ui
+        forms/browsemovies.ui)
 source_group(forms ${MOVIESORT_FORMS})
 
 add_executable(moviesort src/test.cpp ${MOVIESORT_SRC} ${MOVIESORT_H} ${MOVIESORT_FORMS})
