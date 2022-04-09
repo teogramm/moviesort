@@ -4,6 +4,7 @@
 #include <MovieSort/Backend.h>
 #include "MainMenu.h"
 #include "AddMoviePanel.h"
+#include "interfaces/BackendAdapter.h"
 
 // TODO: Add statistics about file imports (total, successful, failed, already in)
 namespace Ui{
@@ -36,14 +37,10 @@ namespace MSGui{
          * Closes the currently open panel
          */
         void closePanel();
-        void addMovie(const QString& movieName);
-
-    signals:
-        void movieAdded(const QString& movieName, AddMoviePanel::Result result);
     private:
         Ui::MainApp* ui;
         MainMenu* mainMenu;
-        MovieSort::Backend* backend;
+        MSGui::BackendAdapter* backend;
         /**
          * Connect the signals emitted from the main menu to the slots that open
          * the respective panes in MainApp.

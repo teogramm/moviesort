@@ -5,8 +5,6 @@
 
 namespace MovieSort {
     class Movie {
-    std::string name;
-    unsigned elo;
     public:
         Movie(std::string movieName, unsigned movieElo): name(std::move(movieName)), elo(movieElo){};
         [[nodiscard]] std::string getName() const {
@@ -15,6 +13,9 @@ namespace MovieSort {
         [[nodiscard]] unsigned getElo() const {
             return elo;
         }
+    private:
+        std::string name;
+        unsigned elo;
     };
 }
 

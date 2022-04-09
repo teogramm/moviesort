@@ -2,7 +2,7 @@
 #include "ui_browsemovies.h"
 #include "BrowseMoviesModel.h"
 
-MSGui::BrowseMoviesPanel::BrowseMoviesPanel(MovieSort::IMovieInfo &backend, QWidget *parent)
+MSGui::BrowseMoviesPanel::BrowseMoviesPanel(MSGui::IMovieInfo &backend, QWidget *parent)
     : ui(new Ui::MovieBrowser), QWidget(parent){
     ui->setupUi(this);
 

@@ -1,9 +1,9 @@
 #ifndef MOVIESORT_IMATCH_H
 #define MOVIESORT_IMATCH_H
-#include "Movie.h"
+#include <MovieSort/Movie.h>
+#include <vector>
 
-
-namespace MovieSort {
+namespace MSGui {
 /**
  * An Interface used to request matches and submit results
  */
@@ -11,8 +11,9 @@ namespace MovieSort {
     public:
         virtual std::pair<MovieSort::Movie, MovieSort::Movie> generateMatch() = 0;
         virtual void
-        writeMatchResult(const std::string &movie1Name, const std::string &movie2Name, int matchResult) = 0;
-        virtual std::vector<Movie> getTopKMovies(unsigned) = 0;
+        writeMatchResult(const QString &movie1Name, const QString &movie2Name, int matchResult) = 0;
+        virtual std::vector<MovieSort::Movie> getTopKMovies(unsigned) = 0;
     };
 }
+
 #endif //MOVIESORT_IMATCH_H

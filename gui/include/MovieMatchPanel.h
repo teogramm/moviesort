@@ -1,7 +1,7 @@
 #ifndef MOVIESORT_MOVIEMATCHPANEL_H
 #define MOVIESORT_MOVIEMATCHPANEL_H
 #include <QWidget>
-#include "MovieSort/IMatch.h"
+#include "interfaces/IMatch.h"
 #include "MovieSort/MatchResult.h"
 
 namespace Ui{
@@ -12,7 +12,7 @@ namespace MSGui {
     class MovieMatchPanel : public QWidget{
     Q_OBJECT
     public:
-        explicit MovieMatchPanel(MovieSort::IMatch &backend, QWidget *parent = nullptr);
+        explicit MovieMatchPanel(MSGui::IMatch &backend, QWidget *parent = nullptr);
         ~MovieMatchPanel() override;
 
     signals:
@@ -22,7 +22,7 @@ namespace MSGui {
         void closeButtonPressed();
     private:
         Ui::MovieMatch *ui;
-        MovieSort::IMatch &backend;
+        MSGui::IMatch &backend;
         QString movie1Name, movie2Name;
         void loadMatch();
         /**
