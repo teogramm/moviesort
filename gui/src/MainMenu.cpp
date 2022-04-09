@@ -6,7 +6,10 @@ MSGui::MainMenu::MainMenu(QWidget *parent)
     : QWidget(parent), ui(new Ui::MainMenu) {
     ui->setupUi(this);
     populateMenu();
+    setUpLeaderboard();
+}
 
+void MSGui::MainMenu::setUpLeaderboard() {
     // Stretch first column
     // Resize second column to contents
     auto headerView = ui->leaderboard->horizontalHeader();
