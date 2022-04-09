@@ -3,13 +3,14 @@
 #include "AddMoviePane.h"
 #include "MovieMatchPanel.h"
 #include "MovieSort/Exceptions.h"
+#include "MovieListPane.h"
 #include "utils.h"
 
 MSGui::MainApp::MainApp(): QDialog(), ui(new Ui::MainApp), backend(new MovieSort::Backend("movies.db")){
     ui->setupUi(this);
     auto mm = new MainMenu(ui->stackedWidget);
     mainMenu = mm;
-    mainMenu->setTopMovies(backend->getTopKMovies());
+    mainMenu->setTopMovies(backend->getTopKMovies(10));
     connectMainMenu();
     ui->stackedWidget->addWidget(mainMenu);
 }
@@ -18,6 +19,7 @@ void MSGui::MainApp::connectMainMenu(){
     QObject::connect(mainMenu, &MSGui::MainMenu::optionAddMoviePressed,
                      this, &MSGui::MainApp::openAddMoviePanel);
     QObject::connect(mainMenu, &MainMenu::optionStartMatchPressed, this, &MainApp::openMovieMatchPanel);
+    QObject::connect(mainMenu, &MainMenu::optionSeeMoviesPressed, this, &MainApp::openMovieListPanel);
 }
 
 MSGui::MainApp::~MainApp() {
@@ -46,9 +48,16 @@ void MSGui::MainApp::openMovieMatchPanel() {
     }
 }
 
+void MSGui::MainApp::openMovieListPanel() {
+    auto movieListPanel = new MovieBrowser(*backend, ui->stackedWidget);
+    connect(movieListPanel, &MovieBrowser::closeButtonPressed, this, &MainApp::closePanel);
+    ui->stackedWidget->addWidget(movieListPanel);
+    ui->stackedWidget->setCurrentWidget(movieListPanel);
+}
+
 void MSGui::MainApp::closePanel() {
     auto currWidget = ui->stackedWidget->currentWidget();
-    mainMenu->setTopMovies(backend->getTopKMovies());
+    mainMenu->setTopMovies(backend->getTopKMovies(10));
     delete currWidget;
 }
 

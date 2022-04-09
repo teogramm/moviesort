@@ -9,7 +9,7 @@ namespace Ui{
 }
 
 namespace MSGui {
-    class MovieMatch : public QWidget {
+    class MovieMatch : public QWidget{
     Q_OBJECT
     public:
         explicit MovieMatch(MovieSort::IMatch &backend, QWidget *parent = nullptr);

@@ -19,6 +19,7 @@ namespace MSGui{
     private slots:
         void openAddMoviePanel();
         void openMovieMatchPanel();
+        void openMovieListPanel();
         /**
          * Close the currently open panel
          */

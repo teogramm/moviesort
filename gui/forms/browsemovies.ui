@@ -31,26 +31,26 @@
       </widget>
      </item>
      <item>
-      <widget class="QTableWidget" name="tableWidget">
+      <widget class="QTableView" name="movieTableView">
+       <property name="alternatingRowColors">
+        <bool>true</bool>
+       </property>
        <property name="selectionBehavior">
         <enum>QAbstractItemView::SelectRows</enum>
        </property>
-       <property name="gridStyle">
-        <enum>Qt::NoPen</enum>
+       <property name="showGrid">
+        <bool>false</bool>
        </property>
        <attribute name="verticalHeaderVisible">
         <bool>false</bool>
        </attribute>
-       <column>
-        <property name="text">
-         <string>Rank</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>MovieName</string>
-        </property>
-       </column>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="closeButton">
+       <property name="text">
+        <string>Close</string>
+       </property>
       </widget>
      </item>
     </layout>

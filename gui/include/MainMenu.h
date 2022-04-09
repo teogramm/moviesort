@@ -20,16 +20,9 @@ namespace MSGui{
     public slots:
         void setTopMovies(const std::vector<MovieSort::Movie> &newTopMovies);
     signals:
-        /**
-         * Emitted when the object wants to reload the top movies list.
-         * @param k get the top k movies
-         */
-         // Currently unused and logic is implemented in MainApp.h
-         // Consider if it should be used or removed.
-        void wantTopMovies(unsigned k = 10);
         void optionAddMoviePressed();
         void optionStartMatchPressed();
-        void closeButtonPressed();
+        void optionSeeMoviesPressed();
     private:
         Ui::MainMenu* ui;
         std::vector<MovieSort::Movie> topMovies;
