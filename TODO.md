@@ -3,8 +3,8 @@
 ## GUI
 
 - Make communication between MainApp and the panes use one paradigm:
-  - Currently, it communicates with the MovieMatch panel with the IMatch
-    interface and with the AddMovie panel using a request/reply
+  - Currently, it communicates with the MovieMatchPanel panel with the IMatch
+    interface and with the AddMoviePanel panel using a request/reply
     mechanism implemented with signals and slots.
 
 - Integrate MainApp and MainMenu. Currently, MainMenu listens for close 

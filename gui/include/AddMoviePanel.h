@@ -1,5 +1,5 @@
-#ifndef MOVIESORT_ADDMOVIEPANE_H
-#define MOVIESORT_ADDMOVIEPANE_H
+#ifndef MOVIESORT_ADDMOVIEPANEL_H
+#define MOVIESORT_ADDMOVIEPANEL_H
 
 #include <QWidget>
 
@@ -9,11 +9,11 @@ namespace Ui{
 
 namespace MSGui{
 
-    class AddMovie: public QWidget{
+    class AddMoviePanel: public QWidget{
         Q_OBJECT
     public:
-        explicit AddMovie(QWidget* parent = nullptr);
-        ~AddMovie() override;
+        explicit AddMoviePanel(QWidget* parent = nullptr);
+        ~AddMoviePanel() override;
         enum class Result{
             Success,
             MovieAlreadyExists,
@@ -32,4 +32,4 @@ namespace MSGui{
     };
 }
 
-#endif //MOVIESORT_ADDMOVIEPANE_H
+#endif //MOVIESORT_ADDMOVIEPANEL_H

@@ -9,11 +9,11 @@ namespace Ui{
 }
 
 namespace MSGui {
-    class MovieMatch : public QWidget{
+    class MovieMatchPanel : public QWidget{
     Q_OBJECT
     public:
-        explicit MovieMatch(MovieSort::IMatch &backend, QWidget *parent = nullptr);
-        ~MovieMatch() override;
+        explicit MovieMatchPanel(MovieSort::IMatch &backend, QWidget *parent = nullptr);
+        ~MovieMatchPanel() override;
 
     signals:
         /**

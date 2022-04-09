@@ -2,11 +2,11 @@
 #include "ui_moviematch.h"
 
 using namespace MSGui;
-MovieMatch::MovieMatch(MovieSort::IMatch& backend, QWidget* parent) : QWidget(parent), ui(new Ui::MovieMatch),
-                        backend(backend) {
+MovieMatchPanel::MovieMatchPanel(MovieSort::IMatch& backend, QWidget* parent) : QWidget(parent), ui(new Ui::MovieMatch),
+                                                                                backend(backend) {
     ui->setupUi(this);
-    QPushButton::connect(ui->exitButton, &QPushButton::clicked, this, &MovieMatch::closeButtonPressed);
-    QPushButton::connect(ui->skipButton, &QPushButton::clicked, this, &MovieMatch::loadMatch);
+    QPushButton::connect(ui->exitButton, &QPushButton::clicked, this, &MovieMatchPanel::closeButtonPressed);
+    QPushButton::connect(ui->skipButton, &QPushButton::clicked, this, &MovieMatchPanel::loadMatch);
     QPushButton::connect(ui->movie1Button, &QPushButton::clicked, this, [this](){
         registerResult(MovieSort::RESULT_FIRST_MOVIE_WIN);
     });
@@ -19,7 +19,7 @@ MovieMatch::MovieMatch(MovieSort::IMatch& backend, QWidget* parent) : QWidget(pa
     loadMatch();
 }
 
-void MovieMatch::loadMatch() {
+void MovieMatchPanel::loadMatch() {
     auto movies = backend.generateMatch();
     movie1Name = QString::fromStdString(movies.first.getName());
     movie2Name = QString::fromStdString(movies.second.getName());
@@ -27,11 +27,11 @@ void MovieMatch::loadMatch() {
     ui->movie2Button->setText(movie2Name);
 }
 
-void MovieMatch::registerResult(int result){
+void MovieMatchPanel::registerResult(int result){
     backend.writeMatchResult(movie1Name.toStdString(), movie2Name.toStdString(), result);
     loadMatch();
 }
 
-MovieMatch::~MovieMatch() {
+MovieMatchPanel::~MovieMatchPanel() {
     delete ui;
 }
