@@ -3,7 +3,8 @@
 #include <QFileDialog>
 #include <QtConcurrent/QtConcurrent>
 
-MSGui::AddMoviePanel::AddMoviePanel(QWidget *parent): QWidget(parent), ui(new Ui::AddMovie) {
+MSGui::AddMoviePanel::AddMoviePanel(IMovieMgmt& backend, QWidget *parent): QWidget(parent), ui(new Ui::AddMovie),
+                                    backend(backend){
     ui->setupUi(this);
     // Progress bar is invisible until the user loads a file
     // Make it keep its size even if invisible
@@ -19,7 +20,8 @@ MSGui::AddMoviePanel::AddMoviePanel(QWidget *parent): QWidget(parent), ui(new Ui
     QPushButton::connect(ui->addMovieButton, &QPushButton::clicked,this, [this](){
         auto movieName = ui->moveNameTextBox->text();
         if(!movieName.isEmpty()){
-            emit wantToAddMovie(movieName);
+            auto result = this->backend.addMovie(movieName);
+            writeAddMovieResult(movieName, result);
         }
     });
 }
@@ -51,29 +53,30 @@ void MSGui::AddMoviePanel::addMoviesFromFile() {
             auto line = textStream.readLine();
             line.remove("\n");
             if(!line.isEmpty()) {
-                emit wantToAddMovie(line);
+                auto result = this->backend.addMovie(line);
+                writeAddMovieResult(line, result);
             }
         }
         ui->progressBar->setVisible(false);
     }
 }
 
-void MSGui::AddMoviePanel::movieAddedResult(const QString&movieName, MSGui::AddMoviePanel::Result result) {
+void MSGui::AddMoviePanel::writeAddMovieResult(const QString&movieName, MSGui::IMovieMgmt::AddResult result) {
     auto logWidgetItem = new QTableWidgetItem();
     // Make the item not editable
     logWidgetItem->setFlags(logWidgetItem->flags()^Qt::ItemIsEditable);
     switch (result) {
-        case Result::Success:
+        case IMovieMgmt::AddResult::Success:
             logWidgetItem->setText(tr("%1 added successfully.").arg(movieName));
             logWidgetItem->setForeground(QBrush(Qt::white));
             logWidgetItem->setBackground(QBrush(Qt::darkGreen));
             break;
-        case Result::MovieAlreadyExists:
+        case IMovieMgmt::AddResult::MovieAlreadyExists:
             logWidgetItem->setText(tr("%1 already exists.").arg(movieName));
             logWidgetItem->setForeground(QBrush(Qt::white));
             logWidgetItem->setBackground(QBrush(Qt::darkYellow));
             break;
-        case Result::Error:
+        case IMovieMgmt::AddResult::Error:
             logWidgetItem->setText(tr("Error while adding %1.").arg(movieName));
             logWidgetItem->setForeground(QBrush(Qt::white));
             logWidgetItem->setBackground(QBrush(Qt::darkRed));

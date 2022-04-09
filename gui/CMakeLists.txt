@@ -12,7 +12,11 @@ set(MOVIESORT_H
         include/MovieMatchPanel.h
         include/utils.h
         include/BrowseMoviesModel.h
-        include/BrowseMoviesPanel.h)
+        include/BrowseMoviesPanel.h
+        include/interfaces/IMatch.h
+        include/interfaces/IMovieMgmt.h
+        include/interfaces/IMovieInfo.h
+        include/interfaces/BackendAdapter.h)
 source_group(headers ${MOVIESORT_H})
 
 set(MOVIESORT_SRC

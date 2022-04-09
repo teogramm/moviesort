@@ -6,7 +6,11 @@
 #include "BrowseMoviesPanel.h"
 #include "utils.h"
 
-MSGui::MainApp::MainApp(): QDialog(), ui(new Ui::MainApp), backend(new MovieSort::Backend("movies.db")){
+MSGui::MainApp::MainApp(): QDialog(), ui(new Ui::MainApp){
+    // Initialize backend
+    // TODO: Database location on ~/.config or as a parameter.
+    auto backendPtr = std::make_unique<MovieSort::Backend>("movies.db");
+    backend = new BackendAdapter(backendPtr);
     ui->setupUi(this);
     auto mm = new MainMenu(ui->stackedWidget);
     mainMenu = mm;
@@ -29,10 +33,8 @@ MSGui::MainApp::~MainApp() {
 }
 
 void MSGui::MainApp::openAddMoviePanel() {
-    auto addMoviePane = new AddMoviePanel(ui->stackedWidget);
+    auto addMoviePane = new AddMoviePanel(*backend, ui->stackedWidget);
     QObject::connect(addMoviePane, &AddMoviePanel::closeButtonPressed, this, &MainApp::closePanel);
-    QObject::connect(addMoviePane, &AddMoviePanel::wantToAddMovie, this, &MainApp::addMovie);
-    QObject::connect(this, &MainApp::movieAdded, addMoviePane, &AddMoviePanel::movieAddedResult);
     ui->stackedWidget->addWidget(addMoviePane);
     ui->stackedWidget->setCurrentWidget(addMoviePane);
 }
@@ -59,15 +61,4 @@ void MSGui::MainApp::closePanel() {
     auto currWidget = ui->stackedWidget->currentWidget();
     mainMenu->setTopMovies(backend->getTopKMovies(10));
     delete currWidget;
-}
-
-void MSGui::MainApp::addMovie(const QString &movieName) {
-    try{
-        backend->addMovie(movieName.toStdString());
-        emit movieAdded(movieName, AddMoviePanel::Result::Success);
-    } catch (MovieSort::MovieAlreadyExists& e) {
-        emit movieAdded(movieName, AddMoviePanel::Result::MovieAlreadyExists);
-    } catch (std::exception &e){
-        emit movieAdded(movieName, AddMoviePanel::Result::Error);
-    }
 }

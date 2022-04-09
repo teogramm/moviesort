@@ -4,6 +4,7 @@
 #include "MovieSort/Exceptions.h"
 #include "MovieDatabase.h"
 #include "EloCalculator.h"
+#include "MovieSort/MatchResult.h"
 
 class MovieSort::Backend::impl{
 public:
@@ -76,6 +77,10 @@ MovieSort::Backend::writeMatchResult(const std::string &movie1Name, const std::s
     auto movie1 = Movie(movie1Name, pimpl->getDB().getMovieElo(movie1Name));
     auto movie2 = Movie(movie2Name, pimpl->getDB().getMovieElo(movie2Name));
     auto match = Match(movie1, movie2, matchResult);
+    // Check if match result is valid
+    if(!MovieSort::is_valid_result(matchResult)){
+        throw std::invalid_argument("Invalid match result code");
+    }
     pimpl->getDB().writeMatchResult(match);
 }
 

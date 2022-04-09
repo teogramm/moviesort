@@ -6,11 +6,17 @@
 #include <stdexcept>
 
 namespace MovieSort{
+    /**
+     * A general error in the database.
+     */
     class DatabaseError: public std::runtime_error{
     public:
         explicit DatabaseError(const std::string &info) : runtime_error(info) {};
     };
 
+    /**
+     * Indicates that a movie with the same name exists in the database.
+     */
     class MovieAlreadyExists: public DatabaseError{
         constexpr static auto message = " already exists in the database.";
     public:
@@ -18,6 +24,9 @@ namespace MovieSort{
         }
     };
 
+    /**
+     * Indicates that a movie was not found in the database.
+     */
     class MovieNotFound: public DatabaseError{
         constexpr static auto message = " not found in database.";
     public:

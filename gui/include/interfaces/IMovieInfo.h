@@ -1,10 +1,9 @@
 #ifndef MOVIESORT_IMOVIEINFO_H
 #define MOVIESORT_IMOVIEINFO_H
-
+#include <MovieSort/Movie.h>
 #include <vector>
-#include "Movie.h"
 
-namespace MovieSort{
+namespace MSGui{
     /**
      * Interface with methods that provide information about the movies stored
      * in the database.
@@ -15,5 +14,4 @@ namespace MovieSort{
         virtual unsigned getMovieCount() = 0;
     };
 }
-
 #endif //MOVIESORT_IMOVIEINFO_H

@@ -2,7 +2,7 @@
 #include "ui_moviematch.h"
 
 using namespace MSGui;
-MovieMatchPanel::MovieMatchPanel(MovieSort::IMatch& backend, QWidget* parent) : QWidget(parent), ui(new Ui::MovieMatch),
+MovieMatchPanel::MovieMatchPanel(IMatch& backend, QWidget* parent) : QWidget(parent), ui(new Ui::MovieMatch),
                                                                                 backend(backend) {
     ui->setupUi(this);
     QPushButton::connect(ui->exitButton, &QPushButton::clicked, this, &MovieMatchPanel::closeButtonPressed);
@@ -28,7 +28,7 @@ void MovieMatchPanel::loadMatch() {
 }
 
 void MovieMatchPanel::registerResult(int result){
-    backend.writeMatchResult(movie1Name.toStdString(), movie2Name.toStdString(), result);
+    backend.writeMatchResult(movie1Name, movie2Name, result);
     loadMatch();
 }
 
