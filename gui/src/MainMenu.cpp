@@ -13,8 +13,6 @@ MSGui::MainMenu::MainMenu(QWidget *parent)
     headerView->setSectionResizeMode(0, QHeaderView::Stretch);
     headerView->setSectionResizeMode(1, QHeaderView::ResizeToContents);
     ui->leaderboard->setSelectionBehavior(QAbstractItemView::SelectRows);
-
-    emit wantTopMovies();
 }
 
 MSGui::MainMenu::~MainMenu() {
@@ -22,21 +20,25 @@ MSGui::MainMenu::~MainMenu() {
 }
 
 void MSGui::MainMenu::populateMenu() {
-    auto addMovieButton = new QPushButton("Add Movie", this);
+    auto addMovieButton = new QPushButton(QStringLiteral("Add Movie"), this);
     QPushButton::connect(addMovieButton, &QPushButton::clicked,
                          this, &MSGui::MainMenu::optionAddMoviePressed);
     ui->mainMenu->insertWidget(0,addMovieButton);
 
-    auto movieMatchButton = new QPushButton("Start match", this);
+    auto movieMatchButton = new QPushButton(QStringLiteral("Start match"), this);
     QPushButton::connect(movieMatchButton, &QPushButton::clicked,
                          this, &MainMenu::optionStartMatchPressed);
     ui->mainMenu->insertWidget(1, movieMatchButton);
 
-    auto quitButton = new QPushButton("Quit", this);
+    auto browseMoviesButton = new QPushButton(QStringLiteral("Browse Movies"), this);
+    QPushButton::connect(browseMoviesButton, &QPushButton::clicked, this, &MainMenu::optionSeeMoviesPressed);
+    ui->mainMenu->insertWidget(2, browseMoviesButton);
+
+    auto quitButton = new QPushButton(QStringLiteral("Quit"), this);
     QPushButton::connect(quitButton, &QPushButton::clicked, [](){
         QApplication::quit();
     });
-    ui->mainMenu->insertWidget(2, quitButton);
+    ui->mainMenu->insertWidget(3, quitButton);
 }
 
 void MSGui::MainMenu::setTopMovies(const std::vector<MovieSort::Movie> &newTopMovies) {

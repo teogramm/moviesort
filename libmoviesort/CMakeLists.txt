@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.14)
 project(libmoviesort)
 
 set(CMAKE_CXX_STANDARD 17)
-add_library(${PROJECT_NAME} src/MovieDatabase.cpp src/EloCalculator.cpp src/Backend.cpp src/Match.cpp)
+add_library(${PROJECT_NAME} src/MovieDatabase.cpp src/EloCalculator.cpp src/Backend.cpp src/Match.cpp include/public/MovieSort/IMovieInfo.h)
 
 find_package(SQLite3 REQUIRED)
 

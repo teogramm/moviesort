@@ -8,7 +8,11 @@ find_package(Qt6Widgets COMPONENTS Core Widgets REQUIRED)
 
 set(MOVIESORT_H
         include/MainApp.h
-        include/MainMenu.h include/AddMoviePane.h include/MovieMatchPanel.h include/utils.h)
+        include/MainMenu.h include/AddMoviePane.h
+        include/MovieMatchPanel.h
+        include/utils.h
+        include/MovieListModel.h
+        include/MovieListPane.h)
 source_group(headers ${MOVIESORT_H})
 
 set(MOVIESORT_SRC
@@ -16,7 +20,7 @@ set(MOVIESORT_SRC
         src/MainMenu.cpp
         src/utils.cpp src/AddMoviePane.cpp
         src/MovieMatchPanel.cpp
-        src/utils.cpp)
+        src/utils.cpp src/MovieListModel.cpp src/MovieListPane.cpp)
 source_group(sources ${MOVIESORT_SRC})
 
 set(MOVIESORT_FORMS
