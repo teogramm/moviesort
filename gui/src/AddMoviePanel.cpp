@@ -1,9 +1,9 @@
-#include "AddMoviePane.h"
+#include "AddMoviePanel.h"
 #include "ui_addmovie.h"
 #include <QFileDialog>
 #include <QtConcurrent/QtConcurrent>
 
-MSGui::AddMovie::AddMovie(QWidget *parent): QWidget(parent), ui(new Ui::AddMovie) {
+MSGui::AddMoviePanel::AddMoviePanel(QWidget *parent): QWidget(parent), ui(new Ui::AddMovie) {
     ui->setupUi(this);
     // Progress bar is invisible until the user loads a file
     // Make it keep its size even if invisible
@@ -14,8 +14,8 @@ MSGui::AddMovie::AddMovie(QWidget *parent): QWidget(parent), ui(new Ui::AddMovie
 
     // Button connections
     QPushButton::connect(ui->cancelButton, &QPushButton::clicked,
-                         this, &MSGui::AddMovie::closeButtonPressed);
-    QPushButton::connect(ui->browseButton, &QPushButton::clicked, this, &AddMovie::addMoviesFromFile);
+                         this, &MSGui::AddMoviePanel::closeButtonPressed);
+    QPushButton::connect(ui->browseButton, &QPushButton::clicked, this, &AddMoviePanel::addMoviesFromFile);
     QPushButton::connect(ui->addMovieButton, &QPushButton::clicked,this, [this](){
         auto movieName = ui->moveNameTextBox->text();
         if(!movieName.isEmpty()){
@@ -24,11 +24,11 @@ MSGui::AddMovie::AddMovie(QWidget *parent): QWidget(parent), ui(new Ui::AddMovie
     });
 }
 
-MSGui::AddMovie::~AddMovie(){
+MSGui::AddMoviePanel::~AddMoviePanel(){
     delete ui;
 }
 
-void MSGui::AddMovie::addMoviesFromFile() {
+void MSGui::AddMoviePanel::addMoviesFromFile() {
     auto filePickDialog = QFileDialog(this);
     filePickDialog.setWindowTitle("Select a text file");
     filePickDialog.setOption(QFileDialog::ReadOnly);
@@ -58,7 +58,7 @@ void MSGui::AddMovie::addMoviesFromFile() {
     }
 }
 
-void MSGui::AddMovie::movieAddedResult(const QString&movieName, MSGui::AddMovie::Result result) {
+void MSGui::AddMoviePanel::movieAddedResult(const QString&movieName, MSGui::AddMoviePanel::Result result) {
     auto logWidgetItem = new QTableWidgetItem();
     // Make the item not editable
     logWidgetItem->setFlags(logWidgetItem->flags()^Qt::ItemIsEditable);

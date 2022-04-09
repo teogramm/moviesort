@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MovieBrowser</class>
- <widget class="QWidget" name="MovieBrowser">
+ <class>BrowseMoviesPanel</class>
+ <widget class="QWidget" name="BrowseMoviesPanel">
   <property name="geometry">
    <rect>
     <x>0</x>

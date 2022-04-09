@@ -1,14 +1,14 @@
-#ifndef MOVIESORT_MOVIELISTMODEL_H
-#define MOVIESORT_MOVIELISTMODEL_H
+#ifndef MOVIESORT_BROWSEMOVIESMODEL_H
+#define MOVIESORT_BROWSEMOVIESMODEL_H
 #include <QAbstractTableModel>
 #include <utility>
 #include <MovieSort/Movie.h>
 
 namespace MSGui {
-    class MovieListModel : public QAbstractTableModel {
+    class BrowseMoviesModel : public QAbstractTableModel {
     Q_OBJECT
     public:
-        explicit MovieListModel(std::vector<MovieSort::Movie> movies, QObject *parent = nullptr)
+        explicit BrowseMoviesModel(std::vector<MovieSort::Movie> movies, QObject *parent = nullptr)
                 : movies(std::move(movies)), QAbstractTableModel(parent) {}
 
         int rowCount(const QModelIndex &parent) const override;
@@ -23,4 +23,4 @@ namespace MSGui {
         std::vector<MovieSort::Movie> movies;
     };
 }
-#endif //MOVIESORT_MOVIELISTMODEL_H
+#endif //MOVIESORT_BROWSEMOVIESMODEL_H

@@ -1,9 +1,9 @@
 #include "ui_mainapp.h"
 #include "MainApp.h"
-#include "AddMoviePane.h"
+#include "AddMoviePanel.h"
 #include "MovieMatchPanel.h"
 #include "MovieSort/Exceptions.h"
-#include "MovieListPane.h"
+#include "BrowseMoviesPanel.h"
 #include "utils.h"
 
 MSGui::MainApp::MainApp(): QDialog(), ui(new Ui::MainApp), backend(new MovieSort::Backend("movies.db")){
@@ -29,18 +29,18 @@ MSGui::MainApp::~MainApp() {
 }
 
 void MSGui::MainApp::openAddMoviePanel() {
-    auto addMoviePane = new AddMovie(ui->stackedWidget);
-    QObject::connect(addMoviePane, &AddMovie::closeButtonPressed, this, &MainApp::closePanel);
-    QObject::connect(addMoviePane, &AddMovie::wantToAddMovie, this, &MainApp::addMovie);
-    QObject::connect(this, &MainApp::movieAdded, addMoviePane, &AddMovie::movieAddedResult);
+    auto addMoviePane = new AddMoviePanel(ui->stackedWidget);
+    QObject::connect(addMoviePane, &AddMoviePanel::closeButtonPressed, this, &MainApp::closePanel);
+    QObject::connect(addMoviePane, &AddMoviePanel::wantToAddMovie, this, &MainApp::addMovie);
+    QObject::connect(this, &MainApp::movieAdded, addMoviePane, &AddMoviePanel::movieAddedResult);
     ui->stackedWidget->addWidget(addMoviePane);
     ui->stackedWidget->setCurrentWidget(addMoviePane);
 }
 
 void MSGui::MainApp::openMovieMatchPanel() {
     if(backend->getMovieCount() > 2) {
-        auto movieMatchPanel = new MovieMatch(*backend, ui->stackedWidget);
-        QObject::connect(movieMatchPanel, &MovieMatch::closeButtonPressed, this, &MainApp::closePanel);
+        auto movieMatchPanel = new MovieMatchPanel(*backend, ui->stackedWidget);
+        QObject::connect(movieMatchPanel, &MovieMatchPanel::closeButtonPressed, this, &MainApp::closePanel);
         ui->stackedWidget->addWidget(movieMatchPanel);
         ui->stackedWidget->setCurrentWidget(movieMatchPanel);
     }else{
@@ -49,8 +49,8 @@ void MSGui::MainApp::openMovieMatchPanel() {
 }
 
 void MSGui::MainApp::openMovieListPanel() {
-    auto movieListPanel = new MovieBrowser(*backend, ui->stackedWidget);
-    connect(movieListPanel, &MovieBrowser::closeButtonPressed, this, &MainApp::closePanel);
+    auto movieListPanel = new BrowseMoviesPanel(*backend, ui->stackedWidget);
+    connect(movieListPanel, &BrowseMoviesPanel::closeButtonPressed, this, &MainApp::closePanel);
     ui->stackedWidget->addWidget(movieListPanel);
     ui->stackedWidget->setCurrentWidget(movieListPanel);
 }
@@ -64,10 +64,10 @@ void MSGui::MainApp::closePanel() {
 void MSGui::MainApp::addMovie(const QString &movieName) {
     try{
         backend->addMovie(movieName.toStdString());
-        emit movieAdded(movieName, AddMovie::Result::Success);
+        emit movieAdded(movieName, AddMoviePanel::Result::Success);
     } catch (MovieSort::MovieAlreadyExists& e) {
-        emit movieAdded(movieName, AddMovie::Result::MovieAlreadyExists);
+        emit movieAdded(movieName, AddMoviePanel::Result::MovieAlreadyExists);
     } catch (std::exception &e){
-        emit movieAdded(movieName, AddMovie::Result::Error);
+        emit movieAdded(movieName, AddMoviePanel::Result::Error);
     }
 }
