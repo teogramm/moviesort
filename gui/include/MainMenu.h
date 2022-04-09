@@ -31,6 +31,10 @@ namespace MSGui{
          * Populate the top movies table with values from the
          */
         void populateTopMoviesTable();
+        /**
+         * Configure the leaderboard widget.
+         */
+        void setUpLeaderboard();
     };
 }
 
