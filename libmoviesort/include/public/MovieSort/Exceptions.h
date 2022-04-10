@@ -25,7 +25,7 @@ namespace MovieSort{
     };
 
     /**
-     * Indicates that a movie was not found in the database.
+     * Indicates that a movie was not found in the database.1
      */
     class MovieNotFound: public DatabaseError{
         constexpr static auto message = " not found in database.";

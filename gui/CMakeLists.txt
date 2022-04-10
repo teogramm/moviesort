@@ -35,6 +35,15 @@ set(MOVIESORT_FORMS
         forms/browsemovies.ui)
 source_group(forms ${MOVIESORT_FORMS})
 
+set(CMAKE_INSTALL_RPATH $ORIGIN)
 add_executable(moviesort src/test.cpp ${MOVIESORT_SRC} ${MOVIESORT_H} ${MOVIESORT_FORMS})
 target_include_directories(moviesort PRIVATE include)
 target_link_libraries(moviesort libmoviesort Qt6::Core Qt6::Widgets)
+
+include(GNUInstallDirs)
+install(TARGETS moviesort
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+include(InstallRequiredSystemLibraries)
+set(CPACK_SOURCE_GENERATOR "TGZ")
+include(CPack)
